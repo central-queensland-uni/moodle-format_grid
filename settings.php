@@ -37,7 +37,7 @@ $ADMIN->add('formatsettings', new admin_category('format_grid', get_string('plug
 
 // Information.
 $page = new admin_settingpage(
-    'format_grid_information',
+    'formatinformationgrid',
     get_string('information', 'format_grid')
 );
 
@@ -66,7 +66,7 @@ $ADMIN->add('format_grid', $page);
 
 // Settings.
 $page = new admin_settingpage(
-    'format_grid_settings',
+    'formatsettinggrid',
     get_string('settings', 'format_grid')
 );
 if ($ADMIN->fulltree) {
@@ -180,6 +180,17 @@ if ($ADMIN->fulltree) {
         2 => new lang_string('yes'),
     ];
     $page->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
+
+    // Indentation.
+    $url = new core\url('/admin/course/resetindentation.php', ['format' => 'grid']);
+    $link = html_writer::link($url, get_string('resetindentation', 'admin'));
+    $default = 1;
+    $page->add(new admin_setting_configcheckbox(
+        'format_grid/indentation',
+        new lang_string('indentation', 'format_grid'),
+        new lang_string('indentation_help', 'format_grid').'<br />'.$link,
+        $default
+    ));
 
     // Completion.
     $name = 'format_grid/defaultshowcompletion';

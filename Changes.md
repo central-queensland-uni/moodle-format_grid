@@ -1,6 +1,12 @@
 History
 =============
 
+Version 405.1.1 - 16/07/2025
+----------------------------
+1. Fix 'Images only in section zero summary don't count as content to be shown'.
+2. Fix 'Question banks cannot determine if section zero can be shown'.
+3. Enhancement 'Add module indentation capability'.
+
 Version 405.1.0 - 02/06/2025
 ----------------------------
 1. Remove 'gnumsections' from database if any exist and update Behat tests to use initial 'numsections'.

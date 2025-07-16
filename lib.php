@@ -188,7 +188,7 @@ class format_grid extends core_courseformat\base {
      * @return bool
      */
     public function uses_indentation(): bool {
-        return false;
+        return (get_config('format_grid', 'indentation')) ? true : false;
     }
 
     /**
@@ -261,7 +261,7 @@ class format_grid extends core_courseformat\base {
         $shown = parent::is_section_visible($section);
         if (($shown) && ($section->sectionnum == 0)) {
             // Show section zero if summary has content, otherwise check modules.
-            if (empty(strip_tags($section->summary))) {
+            if (empty(strip_tags($section->summary, ['img']))) { // Allow images to be content.
                 // Don't show section zero if no modules or all modules unavailable to user.
                 $showmovehere = ismoving($this->course->id);
                 if (!$showmovehere) {
@@ -274,6 +274,10 @@ class format_grid extends core_courseformat\base {
                         if (!empty($modinfo->sections[$section->section])) {
                             foreach ($modinfo->sections[$section->section] as $modnumber) {
                                 $mod = $modinfo->cms[$modnumber];
+                                if ($mod->modname == 'qbank') {
+                                    // Ignore question banks.
+                                    break;
+                                }
                                 if ($mod->is_visible_on_course_page()) {
                                     // At least one is.
                                     $modshown = true;
