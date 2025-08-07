@@ -1,6 +1,28 @@
 History
 =============
 
+Version 500.0.5 - 07/08/2025
+----------------------------
+1. Fix section course module summary showing 'Activities:' without a number.
+2. Take into account sub-sections when determining if a section is empty when deciding if it is shown.
+
+Version 500.0.4 - 30/07/2025
+----------------------------
+1. Fix section zero in grid causes crash.
+2. Fix display of sections on single section page.
+3. Ensure that section zero is checked correctly for visibility.
+
+Version 500.0.3 - 27/07/2025
+----------------------------
+1. Enhancement 'Add 'courseindex' site setting that controls the display of the Course Index'.
+2. Fix 'Hidden section shown as "not available" to user with "moodle/course:viewhiddensections" permission' - #240.
+
+Version 500.0.2 - 16/07/2025
+----------------------------
+1. Fix 'Images only in section zero summary don't count as content to be shown'.
+2. Fix 'Question banks cannot determine if section zero can be shown'.
+3. Enhancement 'Add module indentation capability'.
+
 Version 500.0.1 - 09/07/2025
 ----------------------------
 1. Release candidate version for Moodle 5.0.
