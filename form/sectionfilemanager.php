@@ -40,7 +40,7 @@ class MoodleQuickForm_sectionfilemanager extends MoodleQuickForm_filemanager imp
     private static $options = [
         'maxfiles' => 1,
         'subdirs' => 0,
-        'accepted_types' => ['gif', 'jpe', 'jpeg', 'jpg', 'png', 'webp'],
+        'accepted_types' => ['.gif', '.jpe', '.jpeg', '.jpg', '.png', '.webp'],
         'return_types' => FILE_INTERNAL,
     ];
 
@@ -240,5 +240,89 @@ class MoodleQuickForm_sectionfilemanager extends MoodleQuickForm_filemanager imp
             $sectionid
         );
         $this->setValue($fmd->sectionimage_filemanager);
+    }
+    
+    /**
+     * Returns HTML for sectionfilemanager form element.
+     *
+     * @return string
+     */
+    function toHtml() {
+        global $CFG, $USER, $COURSE, $PAGE, $OUTPUT, $DB;
+        require_once("$CFG->dirroot/repository/lib.php");
+
+        $this->init();
+
+        // security - never ever allow guest/not logged in user to upload anything or use this element!
+        if (isguestuser() or !isloggedin()) {
+            throw new \moodle_exception('noguest');
+        }
+
+        if ($this->_flagFrozen) {
+            return $this->getFrozenHtml();
+        }
+
+        $id          = $this->_attributes['id'];
+        $elname      = $this->_attributes['name'];
+        $subdirs     = $this->_options['subdirs'];
+        $maxbytes    = $this->_options['maxbytes'];
+        $draftitemid = $this->getValue();
+        $accepted_types = $this->_options['accepted_types'];
+
+        if (empty($draftitemid)) {
+            // no existing area info provided - let's use fresh new draft area
+            require_once("$CFG->libdir/filelib.php");
+            $this->setValue(file_get_unused_draft_itemid());
+            $draftitemid = $this->getValue();
+        }
+
+        $client_id = uniqid();        
+
+        // filemanager options
+        $options = new stdClass();
+        $options->mainfile  = $this->_options['mainfile'];
+        $options->maxbytes  = $this->_options['maxbytes'];
+        $options->maxfiles  = $this->getMaxfiles();
+        $options->client_id = $client_id;
+        $options->itemid    = $draftitemid;
+        $options->subdirs   = $this->_options['subdirs'];
+        $options->target    = $id;
+        $options->accepted_types = $accepted_types;
+        $options->return_types = $this->_options['return_types'];
+        $options->context = $PAGE->context;
+        $options->areamaxbytes = $this->_options['areamaxbytes'];
+        
+        // CQU Customisation Start - Prepare list of disabled repositories (all except sectionimage)
+        $repoexists = core_plugin_manager::instance()->get_plugin_info('repository_sectionimage');
+        
+        if ($repoexists) {
+            $excludedrepos = $DB->get_fieldset_select('repository', 'type', "type <> 'sectionimage'");
+            $options->disable_types = $excludedrepos;
+        }
+        // End CQU Customisation
+
+        $html = $this->_getTabs();
+        $fm = new form_filemanager($options);
+        $output = $PAGE->get_renderer('core', 'files');
+        $html .= $output->render($fm);
+
+        $html .= html_writer::empty_tag('input', array('value' => $draftitemid, 'name' => $elname, 'type' => 'hidden', 'id' => $id));
+
+        // CQU Customisation Start - Add a link to manage the repository
+        if ($repoexists && has_capability('repository/sectionimage:editimagerepository', context_system::instance())) {
+            $html .= html_writer::tag('p', html_writer::link(new moodle_url('/repository/sectionimage/manage.php'), 
+            '<i class="icon fa fa-gear fa-fw " aria-hidden="true"></i> ' . get_string('manageimages', 'repository_sectionimage')));
+        }
+        // End CQU Customisation
+
+        if (!empty($options->accepted_types) && $options->accepted_types != '*') {
+            $html .= html_writer::tag('p', get_string('filesofthesetypes', 'form'));
+            $util = new \core_form\filetypes_util();
+            $filetypes = $options->accepted_types;
+            $filetypedescriptions = $util->describe_file_types($filetypes);
+            $html .= $OUTPUT->render_from_template('core_form/filetypes-descriptions', $filetypedescriptions);
+        }
+
+        return $html;
     }
 }
