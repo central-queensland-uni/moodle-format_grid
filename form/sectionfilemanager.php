@@ -217,36 +217,6 @@ class MoodleQuickForm_sectionfilemanager extends MoodleQuickForm_filemanager imp
      *
      * @return string
      */
-    public function toHtml() {
-        $this->init();
-        return parent::toHtml();
-    }
-
-    /**
-     * Prepare the file area.
-     */
-    private function init() {
-        $course = $this->getAttribute('course');
-        $sectionid = $this->getAttribute('sectionid');
-
-        $coursecontext = context_course::instance($course->id);
-        $fmd = file_prepare_standard_filemanager(
-            $course,
-            'sectionimage',
-            self::$options,
-            $coursecontext,
-            'format_grid',
-            'sectionimage',
-            $sectionid
-        );
-        $this->setValue($fmd->sectionimage_filemanager);
-    }
-    
-    /**
-     * Returns HTML for sectionfilemanager form element.
-     *
-     * @return string
-     */
     function toHtml() {
         global $CFG, $USER, $COURSE, $PAGE, $OUTPUT, $DB;
         require_once("$CFG->dirroot/repository/lib.php");
@@ -291,7 +261,7 @@ class MoodleQuickForm_sectionfilemanager extends MoodleQuickForm_filemanager imp
         $options->return_types = $this->_options['return_types'];
         $options->context = $PAGE->context;
         $options->areamaxbytes = $this->_options['areamaxbytes'];
-        
+
         // CQU Customisation Start - Prepare list of disabled repositories (all except sectionimage)
         $repoexists = core_plugin_manager::instance()->get_plugin_info('repository_sectionimage');
         
@@ -324,5 +294,25 @@ class MoodleQuickForm_sectionfilemanager extends MoodleQuickForm_filemanager imp
         }
 
         return $html;
+    }
+
+    /**
+     * Prepare the file area.
+     */
+    private function init() {
+        $course = $this->getAttribute('course');
+        $sectionid = $this->getAttribute('sectionid');
+
+        $coursecontext = context_course::instance($course->id);
+        $fmd = file_prepare_standard_filemanager(
+            $course,
+            'sectionimage',
+            self::$options,
+            $coursecontext,
+            'format_grid',
+            'sectionimage',
+            $sectionid
+        );
+        $this->setValue($fmd->sectionimage_filemanager);
     }
 }
