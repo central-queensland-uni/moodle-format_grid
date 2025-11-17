@@ -61,6 +61,7 @@ class format_grid extends core_courseformat\base {
             if (!empty($USER->editing) && has_capability('moodle/course:update', $context)) {
                 $this->coursedisplay = COURSE_DISPLAY_SINGLEPAGE;
             } else {
+                global $PAGE;
                 $currentsettings = $this->get_settings();
                 if (!empty($currentsettings['popup'])) {
                     if ($currentsettings['popup'] == 2) {
@@ -69,6 +70,9 @@ class format_grid extends core_courseformat\base {
                             $this->coursedisplay = COURSE_DISPLAY_SINGLEPAGE;
                         }
                     }
+                }
+                if ($PAGE->pagetype == "course-section") {
+                    $this->coursedisplay = COURSE_DISPLAY_SINGLEPAGE;
                 }
             }
         }
