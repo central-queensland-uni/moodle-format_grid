@@ -103,6 +103,14 @@ $string['imageresizemethod_help'] = "Set to: 'Scale' or 'Crop' when resizing the
 $string['defaultimageresizemethod'] = 'Default image resize method';
 $string['defaultimageresizemethod_desc'] = "Set to: 'Scale' or 'Crop' when resizing the image to fit the container.";
 
+// Image lazy/eager loading.
+$string['lazy'] = 'Lazy';
+$string['eager'] = 'Eager';
+$string['imageloading'] = 'Set image loading';
+$string['imageloading_help'] = "Choose the default for image loading: 'Lazy' saves bandwidth and speeds up the initial page load by loading images as you scroll; 'Eager' loads all images immediately so they are visible at once but may make the page slower and use more data.";
+$string['defaultimageloading'] = 'Default image loading';
+$string['defaultimageloading_desc']  = "Choose the default for image loading: 'Lazy' saves bandwidth and speeds up the initial page load by loading images as you scroll; 'Eager' loads all images immediately so they are visible at once but may make the page slower and use more data.";
+
 // Displayed image type.
 $string['original'] = 'Original';
 $string['webp'] = 'WebP';
