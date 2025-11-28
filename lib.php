@@ -62,16 +62,8 @@ class format_grid extends core_courseformat\base {
                 $this->coursedisplay = COURSE_DISPLAY_SINGLEPAGE;
             } else {
                 global $PAGE;
-                $currentsettings = $this->get_settings();
-                if (!empty($currentsettings['popup'])) {
-                    if ($currentsettings['popup'] == 2) {
-                        global $PAGE;
-                        if ($PAGE->pagetype == "course-view") {
-                            $this->coursedisplay = COURSE_DISPLAY_SINGLEPAGE;
-                        }
-                    }
-                }
-                if ($PAGE->pagetype == "course-section") {
+
+                if ($PAGE->pagetype == "course-view" || $PAGE->pagetype == "course-section") {
                     $this->coursedisplay = COURSE_DISPLAY_SINGLEPAGE;
                 }
             }
