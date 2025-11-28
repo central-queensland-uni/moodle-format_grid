@@ -135,6 +135,18 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('format_grid::update_displayed_images_callback');
     $page->add($setting);
 
+    // Indicate how the browser should load the image.
+    $name = 'format_grid/defaultimageloading';
+    $title = get_string('defaultimageloading', 'format_grid');
+    $description = get_string('defaultimageloading_desc', 'format_grid');
+    $default = 1; // Lazy.
+    $choices = [
+        1 => new lang_string('lazy', 'format_grid'),
+        2 => new lang_string('eager', 'format_grid'),
+    ];
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $page->add($setting);
+
     // Displayed image file type - 1 = original, 2 = webp.
     $name = 'format_grid/defaultdisplayedimagefiletype';
     $title = get_string('defaultdisplayedimagefiletype', 'format_grid');

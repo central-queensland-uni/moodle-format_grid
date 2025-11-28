@@ -538,6 +538,10 @@ class format_grid extends core_courseformat\base {
                     'default' => 0,
                     'type' => PARAM_INT,
                 ],
+                'imageloading' => [
+                    'default' => 0,
+                    'type' => PARAM_INT,
+                ],
                 'sectionzeroingrid' => [
                     'default' => 0,
                     'type' => PARAM_INT,
@@ -650,6 +654,22 @@ class format_grid extends core_courseformat\base {
                 'help_component' => 'format_grid',
                 'element_type' => 'select',
                 'element_attributes' => [$imageresizemethodvalues],
+            ];
+
+            $imageloadingvalues = $this->generate_default_entry(
+                'imageloading',
+                0,
+                [
+                    1 => new lang_string('lazy', 'format_grid'), // Lazy.
+                    2 => new lang_string('eager', 'format_grid'), // Eager.
+                ],
+            );
+            $courseformatoptionsedit['imageloading'] = [
+                'label' => new lang_string('imageloading', 'format_grid'),
+                'help' => 'imageloading',
+                'help_component' => 'format_grid',
+                'element_type' => 'select',
+                'element_attributes' => [$imageloadingvalues],
             ];
 
             $sectionzeroingridvalues = $this->generate_default_entry(

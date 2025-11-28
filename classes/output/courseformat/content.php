@@ -163,6 +163,9 @@ class content extends content_base {
             // Image resize is crop.
             $data->imageresizemethodcrop = ($coursesettings['imageresizemethod'] == 2);
 
+            // Image loading.
+            $data->imageloading = $coursesettings['imageloading'] == 2 ? 'eager' : 'lazy';
+
             // Section title in grid box.
             $data->sectiontitleingridbox = ($coursesettings['sectiontitleingridbox'] == 2);
 

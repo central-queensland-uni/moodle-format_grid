@@ -107,7 +107,7 @@
             <div class="grid-image-container">
                 {{#imageuri}}
                 <div class="grid-image{{^imageresizemethodcrop}} grid-scaled{{/imageresizemethodcrop}} text-center">
-                    <img{{#imageresizemethodcrop}} class="card-img-bottom{{^sectiontitleingridbox}} card-img-top{{/sectiontitleingridbox}}"{{/imageresizemethodcrop}} src="{{imageuri}}" alt="{{imagealttext}}" loading="lazy">
+                    <img{{#imageresizemethodcrop}} class="card-img-bottom{{^sectiontitleingridbox}} card-img-top{{/sectiontitleingridbox}}"{{/imageresizemethodcrop}} src="{{imageuri}}" alt="{{imagealttext}}" loading="{{imageloading}}">
                     {{^sectiontitleingridbox}}{{#sectionbadgeingridbox}}{{#hasbadge}}
                     <div data-region="sectionbadges" class="sectionbadges d-flex {{^sectioncompletionmarkup}}justify-content-center align-items-center grid-badge-middle{{/sectioncompletionmarkup}}{{#sectioncompletionmarkup}}ml-2 align-items-end grid-badge-bottom{{/sectioncompletionmarkup}}">
                         {{$ core_courseformat/local/content/section/badges }}
